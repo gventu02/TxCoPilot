@@ -1,0 +1,6 @@
+{
+  "model_name": "pritamdeka/S-PubMedBert-MS-MARCO",
+  "num_chunks": 4157,
+  "embedding_dim": 768,
+  "num_documents": 53
+}
