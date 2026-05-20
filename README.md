@@ -73,6 +73,8 @@ User Input: data files (CSV) + natural language query
 
 No commercial solver license is required — HiGHS is open source.
 
+Prior knowledge databases (OmniPath PKN, CollecTRI regulon, PROGENy weights, KEGG gene sets) are bundled in `Agent_2/data/` — no separate download required.
+
 ---
 
 ## Installation
@@ -138,6 +140,8 @@ streamlit run streamlit_app.py
 TxCoPilot/
 ├── Agent_1/
 │   ├── streamlit_app.py          # UI entry point — run this
+│   ├── data/
+│   │   └── gene_symbols_cache.json   # MyGene.info lookup cache (speeds up gene normalization)
 │   └── agent1/
 │       ├── agent1_main.py        # Step orchestrator (A → F)
 │       ├── schemas_agent1.py     # Agent1Result — the Agent 1 → 2 interface
@@ -167,9 +171,16 @@ TxCoPilot/
 │   │   ├── kegg_ora.py           # KEGG pathway over-representation analysis
 │   │   ├── carnival_cache.py     # CARNIVAL result caching
 │   │   └── output_packager.py    # Builds Agent2Result
-│   └── llm/
-│       ├── parameter_selector.py # LLM-driven beta/penalty selection
-│       └── network_assessor.py   # LLM network quality assessment
+│   ├── llm/
+│   │   ├── parameter_selector.py # LLM-driven beta/penalty selection
+│   │   └── network_assessor.py   # LLM network quality assessment
+│   └── data/                     # Bundled prior knowledge databases (no download needed)
+│       ├── omnipath_pkn_raw.csv              # OmniPath PKN cache (~70K edges)
+│       ├── omnipath_pathway_annotations.csv  # Node pathway annotations
+│       ├── collectri_human.csv               # CollecTRI TF regulon (RNA-seq / scRNA-seq)
+│       ├── progeny_human_top200.csv          # PROGENy pathway model weights
+│       ├── signor_edge_annotations.csv       # SIGNOR edge annotations for PKN
+│       └── c2.cp.kegg_legacy.v2026.1.Hs.symbols.gmt  # KEGG gene sets for ORA
 │
 ├── Agent_3/
 │   ├── agent3_react_loop.py      # ReAct reasoning loop + tool dispatch
@@ -179,7 +190,8 @@ TxCoPilot/
 │   └── rag_system/
 │       ├── rag_system.py             # RAG build + query engine (PubMedBERT + FAISS)
 │       ├── vectordb_explain.txt      # Index build guide and indexed paper list
-│       └── BUILD_RAG_INDEX.md        # Step-by-step index rebuild instructions
+│       ├── BUILD_RAG_INDEX.md        # Step-by-step index rebuild instructions
+│       └── vector_db/                # Pre-built FAISS index (PubMedBERT, 53 papers, ~16 MB)
 │
 ├── data/                         # Sample datasets (GSE37460 IgAN)
 ├── notebooks/                    # Reproducibility notebooks
@@ -194,11 +206,10 @@ TxCoPilot/
 
 See `notebooks/reproduce_igan.ipynb` for the full GSE37460 IgAN pipeline.
 
-> **RAG index:** The FAISS vector index is not included in this repository — `chunks.pkl`
-> contains text extracted from copyrighted papers and cannot be distributed publicly.
-> To build the index, obtain the source papers and follow the instructions in
-> `Agent_3/rag_system/vectordb_explain.txt`. Agent 3 runs without RAG if no index is found
-> (answers will lack literature citations).
+> **RAG index:** A pre-built FAISS index covering 53 thesis-relevant papers is included in
+> `Agent_3/rag_system/vector_db/`. To extend the index with additional papers, obtain the
+> source PDFs and follow the instructions in `Agent_3/rag_system/vectordb_explain.txt`.
+> Agent 3 runs without RAG if no index is found (answers will lack literature citations).
 
 | Parameter | Value |
 |---|---|
