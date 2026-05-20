@@ -1,0 +1,31 @@
+# Secrets
+.env
+*.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Pipeline outputs (generated at runtime)
+uploads/
+agent1_output/
+agent2_output/
+Agent_2/cache/
+
+# RAG system — copyrighted source material and derived text
+# Source PDFs and the FAISS index (chunks.pkl contains extracted paper text)
+# Users must rebuild locally from their own paper copies.
+# See Agent_3/rag_system/vectordb_explain.txt for instructions.
+Agent_3/rag_system/papers/
+Agent_3/rag_system/vector_db/
+Agent_3/rag_system/test_vector_db/
+
+# Excluded directories — not part of the public release
+Outdated_Code/
+transcriptomics_exploratory_AI_tool/
+
+# Misc
+files.zip
+thesis_env_packge_021326.txt

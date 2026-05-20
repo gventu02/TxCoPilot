@@ -1,0 +1,61 @@
+# Transcriptomics CoPilot — Pinned Python Dependencies
+# Python version: 3.11 (conda env: CS_150)
+# Install: pip install -r requirements.txt
+#
+# All versions are pinned to the environment used for thesis development and testing.
+# To reproduce: conda create -n txcopilot python=3.11 && pip install -r requirements.txt
+
+# ── Core scientific stack ──────────────────────────────────────────
+numpy==2.3.5
+pandas==2.3.3
+scipy==1.16.3
+scikit-learn==1.8.0
+statsmodels==0.14.6
+networkx==3.6.1
+matplotlib==3.10.8
+seaborn==0.13.2
+
+# ── Bioinformatics ────────────────────────────────────────────────
+decoupler==2.1.4           # PROGENy pathway scoring (MLM), TF activity (ULM)
+anndata==0.12.10           # scRNA-seq H5AD file support
+pydeseq2==0.5.4            # DEG analysis for bulk RNA-seq
+omnipath==1.0.12           # Prior knowledge network (OmniPath interactions)
+inmoose==0.9.1             # Pure-Python limma for microarray DEG analysis
+patsy==1.0.2               # Design matrix builder (required by limma_deg.py)
+mygene==3.2.2              # Gene ID normalization via MyGene.info API
+
+# ── CARNIVAL / CORNETO (ILP network optimizer) ────────────────────
+corneto==1.0.0b7           # CARNIVAL implementation (beta — pin exactly)
+cvxpy-base==1.8.1          # Convex optimization interface (CORNETO dependency)
+highspy==1.13.1            # HIGHS open-source ILP solver
+
+# ── LLM / Agent framework ─────────────────────────────────────────
+anthropic==0.80.0          # Claude API (all three agents)
+langchain-anthropic==1.3.4 # LangChain Claude integration (Agent 2 parameter selection)
+langchain-core==1.2.16     # LangChain core (chains, prompts, output parsers)
+python-dotenv==1.0.1       # .env file loading for API keys
+
+# ── RAG system (Agent 3) ──────────────────────────────────────────
+faiss-cpu==1.13.2          # Vector similarity search (FAISS FlatL2 index)
+sentence-transformers==5.2.3  # PubMedBERT embeddings (pritamdeka/S-PubMedBert-MS-MARCO)
+torch==2.10.0              # Backend for sentence-transformers
+transformers==4.57.6       # HuggingFace model loading
+
+# ── Streamlit UI ──────────────────────────────────────────────────
+streamlit==1.54.0
+st-link-analysis==0.4.0    # Cytoscape network visualization component
+pyvis==0.3.2               # Interactive network visualization fallback
+pyarrow==23.0.1            # Streamlit / pandas parquet backend
+
+# ── Utilities ─────────────────────────────────────────────────────
+pydantic==2.12.5           # Data validation and schemas (Agent1Result contract)
+pydantic-settings==2.13.0  # BaseSettings for Agent 1 config (env var loading)
+requests==2.32.5           # HTTP for OmniPath REST API
+PyYAML==6.0.3
+h5py==3.15.1               # HDF5 file support (H5AD backend)
+lxml==6.0.2
+tqdm==4.67.3
+joblib==1.5.3
+
+# ── Optional: RAG index building only ──
+pypdf==6.7.4             # PDF ingestion for building the RAG vector index
